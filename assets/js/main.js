@@ -135,16 +135,39 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('booking-form');
   const statusBox = document.getElementById('form-status');
 
-  if (statusBox) {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('submitted') === '1') {
-      statusBox.innerHTML = '<p class="text-sm font-medium text-green-700 lang-fr">Votre demande a bien été envoyée. Nous vous répondrons bientôt.</p><p class="text-sm font-medium text-green-700 lang-en">Your request has been sent successfully. We will get back to you soon.</p>';
-    }
-  }
-
   if (form) {
     const amenityCheckboxes = Array.from(form.querySelectorAll('input[name="amenity"]'));
     const amenitiesInput = document.getElementById('amenities-input');
+    const messageInput = document.getElementById('form-message');
+
+    function buildMessageSummary() {
+      const formData = new FormData(form);
+      const firstName = (formData.get('firstName') || '').toString().trim();
+      const lastName = (formData.get('lastName') || '').toString().trim();
+      const email = (formData.get('email') || '').toString().trim();
+      const phone = (formData.get('phone') || '').toString().trim();
+      const requestedDate = (formData.get('requestedDate') || '').toString().trim();
+      const startTime = (formData.get('startTime') || '').toString().trim();
+      const endTime = (formData.get('endTime') || '').toString().trim();
+      const duration = (formData.get('duration') || '').toString().trim();
+      const eventType = (formData.get('eventType') || '').toString().trim();
+      const description = (formData.get('description') || '').toString().trim();
+      const amenities = (formData.get('amenities') || '').toString().trim();
+
+      return [
+        `First name: ${firstName}`,
+        `Last name: ${lastName}`,
+        `Email: ${email}`,
+        `Phone: ${phone}`,
+        `Requested date: ${requestedDate}`,
+        `Start time: ${startTime}`,
+        `End time: ${endTime}`,
+        `Duration: ${duration}`,
+        `Event type: ${eventType}`,
+        `Description: ${description}`,
+        `Amenities: ${amenities || 'None'}`
+      ].join('\n');
+    }
 
     function updateAmenitiesValue() {
       if (!amenitiesInput) return;
@@ -155,12 +178,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     amenityCheckboxes.forEach((checkbox) => {
-      checkbox.addEventListener('change', updateAmenitiesValue);
+      checkbox.addEventListener('change', () => {
+        updateAmenitiesValue();
+        if (messageInput) {
+          messageInput.value = buildMessageSummary();
+        }
+      });
     });
     updateAmenitiesValue();
+    if (messageInput) {
+      messageInput.value = buildMessageSummary();
+    }
+
+    form.addEventListener('input', () => {
+      if (messageInput) {
+        messageInput.value = buildMessageSummary();
+      }
+    });
 
     form.addEventListener('submit', (event) => {
       updateAmenitiesValue();
+      if (messageInput) {
+        messageInput.value = buildMessageSummary();
+      }
 
       const firstNameInput = form.querySelector('input[name="firstName"]');
       const lastNameInput = form.querySelector('input[name="lastName"]');
@@ -200,6 +240,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (statusBox) {
         statusBox.innerHTML = '<p class="text-sm font-medium text-green-700 lang-fr">Votre demande est en cours d’envoi…</p><p class="text-sm font-medium text-green-700 lang-en">Your request is being sent…</p>';
+        window.setTimeout(() => {
+          if (statusBox.innerHTML.includes('Votre demande est en cours d’envoi') || statusBox.innerHTML.includes('Your request is being sent')) {
+            statusBox.innerHTML = '';
+          }
+        }, 60000);
       }
     });
   }
