@@ -167,35 +167,28 @@ document.addEventListener('DOMContentLoaded', () => {
       const eventTypeLabel = eventType === 'general' ? 'General' : 'Small Seminar';
       const timeRange = startTime && endTime ? `${startTime} - ${endTime}` : '';
 
+
       return [
         'New Booking Request',
         '',
-        'Name:',
-        `${firstName} ${lastName}`.trim(),
+        `Name: ${firstName} ${lastName}`.trim(),
         '',
-        'Email:',
-        email,
+        `Email: ${email}`,
         '',
-        'Phone:',
-        phone,
+        `Phone: ${phone}`,
         '',
-        'Date:',
-        requestedDate,
+        `Date: ${requestedDate}`,
         '',
-        'Time:',
-        timeRange,
+        `Time: ${timeRange}`,
         '',
-        'Duration:',
-        duration,
+        `Duration: ${duration}`,
         '',
-        'Event Type:',
-        eventTypeLabel,
+        `Event Type: ${eventTypeLabel}`,
         '',
         'Amenities:',
         amenities || '• None',
         '',
-        'Description:',
-        description
+        `Description: ${description}`
       ].join('\n');
     }
 
