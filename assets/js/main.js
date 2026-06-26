@@ -326,6 +326,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (statusBox) {
         statusBox.innerHTML = '<p class="text-sm font-medium text-green-700 lang-fr">Votre demande est en cours d’envoi…</p><p class="text-sm font-medium text-green-700 lang-en">Your request is being sent…</p>';
       }
+
+      form.reset();
+      updateAmenitiesValue();
+      if (messageInput) messageInput.value = buildMessageSummary();
+      updateConfirmationMessage();
     });
   }
 });
