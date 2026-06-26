@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; img-src 'self' https: data:; script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; style-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; frame-src https://calendar.google.com https://www.google.com; connect-src https://formsubmit.co;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; img-src 'self' https: data:; script-src 'self' https://cdn.tailwindcss.com https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; frame-src https://calendar.google.com https://www.google.com; connect-src https://formbold.com;">
     <title>Réservation | Centre Internationaliste Ryerson Fondation Aubin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased is-fr">
 
-    <!-- Navigation -->
     <nav class="py-3 px-6 sticky top-0 z-50 shadow-sm" style="background-color:#610330; border-bottom: 1px solid #4a0425;">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center">
             <div class="flex items-center gap-4">
@@ -19,7 +18,6 @@
                 </a>
             </div>
             
-            <!-- Language Toggle -->
             <div class="flex items-center rounded-lg p-1 border mt-4 md:mt-0" style="background-color:#7a093f; border-color:#4a0425;">
                 <button onclick="setLanguage('fr')" id="btn-fr" class="px-3 py-1 text-sm font-semibold rounded-md bg-white shadow-sm text-[#610330] transition-all">FR</button>
                 <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 text-sm font-semibold rounded-md text-white hover:text-red-100 transition-all">EN</button>
@@ -27,13 +25,10 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-8 flex flex-col lg:flex-row lg:gap-10 lg:items-start">
         
-        <!-- Left Column: Venue Information & Visuals -->
         <div class="w-full lg:w-1/2 mb-10 lg:mb-0 space-y-8">
             
-            <!-- Headers -->
             <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
                 <h1 class="text-3xl md:text-4xl font-extrabold text-[#610330] mb-3 tracking-tight lang-fr">Réservez notre espace communautaire</h1>
                 <h1 class="text-3xl md:text-4xl font-extrabold text-[#610330] mb-3 tracking-tight lang-en">Reserve Our Community Space</h1>
@@ -46,7 +41,6 @@
                 </p>
             </div>
 
-            <!-- Slideshow -->
             <div class="relative w-full h-64 md:h-80 bg-gray-200 rounded-xl overflow-hidden shadow-inner border border-gray-200">
                 <img src="./images/main_local.jpg" class="slide absolute inset-0 w-full h-full object-cover opacity-100" alt="Main Space">
                 <img src="./images/computer_rom.jpg" class="slide absolute inset-0 w-full h-full object-cover opacity-0" alt="Computer Room">
@@ -98,7 +92,6 @@
 
         </div>
 
-        <!-- Right Column: Booking Form -->
         <div class="w-full lg:w-1/2">
             <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 md:p-8 sticky top-24 space-y-6">
                 <div class="bg-stone-100 border border-stone-200 p-6 rounded-xl shadow-sm text-stone-700">
@@ -119,13 +112,9 @@
                 <h2 class="text-2xl font-bold text-gray-900 lang-fr">Demande de réservation</h2>
                 <h2 class="text-2xl font-bold text-gray-900 lang-en">Booking Request</h2>
 
-                <form id="booking-form" class="space-y-5" action="https://formsubmit.co/your@email.com" method="POST">
-                    <input type="hidden" name="_subject" value="New booking request from CIRFA">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_next" value="https://macouag.github.io/">
-                    <input type="hidden" name="message" id="form-message" value="">
-                    <input type="hidden" name="reply_to" id="reply-to" value="">
-                    <input type="hidden" name="confirmation_message" id="confirmation-message" value="">
+                <form id="booking-form" action="https://formbold.com/s/3OObe" method="POST" class="space-y-5">
+                    <input type="hidden" name="template" value="booking_request">
+                    
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Prénom</label>
@@ -142,13 +131,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Courriel</label>
                         <label class="block text-sm font-medium text-gray-700 mb-1 lang-en">Email Address</label>
-                        <input type="email" name="email" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-red-600 focus:ring-red-600 bg-gray-50 border p-2.5 text-sm" autocomplete="email">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Téléphone</label>
-                        <label class="block text-sm font-medium text-gray-700 mb-1 lang-en">Telephone</label>
-                        <input type="tel" name="phone" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-red-600 focus:ring-red-600 bg-gray-50 border p-2.5 text-sm" inputmode="tel" autocomplete="tel">
+                        <input type="email" name="email" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-red-600 focus:ring-red-600 bg-gray-50 border p-2.5 text-sm">
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
@@ -161,10 +144,10 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Type d'événement</label>
                             <label class="block text-sm font-medium text-gray-700 mb-1 lang-en">Event Type</label>
                             <select name="eventType" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-red-600 focus:ring-red-600 bg-gray-50 border p-2.5 text-sm">
-                                <option value="small" class="lang-fr">Petit séminaire (35$/h)</option>
-                                <option value="small" class="lang-en">Small seminar ($35/h)</option>
-                                <option value="general" class="lang-fr">Général (50$/h)</option>
-                                <option value="general" class="lang-en">General ($50/h)</option>
+                                <option value="Small seminar" class="lang-fr">Petit séminaire (35$/h)</option>
+                                <option value="Small seminar" class="lang-en">Small seminar ($35/h)</option>
+                                <option value="General" class="lang-fr">Général (50$/h)</option>
+                                <option value="General" class="lang-en">General ($50/h)</option>
                             </select>
                         </div>
                     </div>
@@ -186,11 +169,10 @@
                         <p class="font-medium">
                             <span class="lang-fr">Durée sélectionnée :</span>
                             <span class="lang-en">Selected duration:</span>
-                            <span id="duration-value" class="ml-1">--</span>
+                            <span id="duration-value" class="ml-1 font-bold">--</span>
                         </p>
                     </div>
                     <input type="hidden" name="duration" id="duration-input">
-                    <input type="hidden" name="amenities" id="amenities-input">
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Description</label>
@@ -238,7 +220,6 @@
         </div>
     </main>
 
-    <!-- JavaScript -->
     <script src="./assets/js/main.js"></script>
 </body>
 </html>
