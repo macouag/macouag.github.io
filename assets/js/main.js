@@ -151,10 +151,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (form) {
     form.addEventListener('submit', async (event) => {
-      event.preventDefault(); // Stop standard browser redirect
+      event.preventDefault(); // Empêche la redirection de page
 
       const submitButton = form.querySelector('button[type="submit"]');
       const originalText = submitButton ? submitButton.innerHTML : '';
+      
       if (submitButton) {
         submitButton.disabled = true;
         submitButton.innerHTML = '<span class="lang-fr">Envoi en cours...</span><span class="lang-en">Sending...</span>';
@@ -164,19 +165,21 @@ document.addEventListener('DOMContentLoaded', () => {
         statusBox.innerHTML = '<p class="text-sm font-medium text-blue-700 lang-fr">Votre demande est en cours d’envoi…</p><p class="text-sm font-medium text-blue-700 lang-en">Your request is being sent…</p>';
       }
 
-      // Prepare data for Formbold via FormData
       const formData = new FormData(form);
 
       try {
+        // Envoi vers Formbold
         const response = await fetch('https://formbold.com/s/3OObe', {
           method: 'POST',
           body: formData,
           headers: {
-            'Accept': 'application/json' // Forces Formbold to return JSON instead of a redirect HTML page
+            // C'est ce qui dit à Formbold de ne pas rediriger la page
+            'Accept': 'application/json' 
           }
         });
 
         if (response.ok) {
+          // Succès !
           if (statusBox) {
             statusBox.innerHTML = '<p class="text-sm font-medium text-green-700 p-3 bg-green-50 rounded-lg border border-green-200 mt-4 lang-fr">✅ Votre demande a bien été envoyée. Nous vous répondrons bientôt.</p><p class="text-sm font-medium text-green-700 p-3 bg-green-50 rounded-lg border border-green-200 mt-4 lang-en">✅ Your request has been sent successfully. We will get back to you soon.</p>';
           }
@@ -186,13 +189,16 @@ document.addEventListener('DOMContentLoaded', () => {
             durationInput.value = '';
           }
         } else {
-            throw new Error('Form submission failed');
+          throw new Error('Erreur réseau');
         }
       } catch (error) {
+        // En cas d'échec
+        console.error("Erreur d'envoi:", error);
         if (statusBox) {
-          statusBox.innerHTML = '<p class="text-sm font-medium text-red-700 p-3 bg-red-50 rounded-lg border border-red-200 mt-4 lang-fr">❌ Une erreur est survenue. Veuillez réessayer plus tard.</p><p class="text-sm font-medium text-red-700 p-3 bg-red-50 rounded-lg border border-red-200 mt-4 lang-en">❌ Something went wrong. Please try again later.</p>';
+          statusBox.innerHTML = '<p class="text-sm font-medium text-red-700 p-3 bg-red-50 rounded-lg border border-red-200 mt-4 lang-fr">❌ Une erreur est survenue. Vérifiez votre connexion et réessayez.</p><p class="text-sm font-medium text-red-700 p-3 bg-red-50 rounded-lg border border-red-200 mt-4 lang-en">❌ An error occurred. Please check your connection and try again.</p>';
         }
       } finally {
+        // Remettre le bouton à son état normal
         if (submitButton) {
           submitButton.disabled = false;
           submitButton.innerHTML = originalText;
