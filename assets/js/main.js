@@ -138,36 +138,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (form) {
     const amenityCheckboxes = Array.from(form.querySelectorAll('input[name="amenity"]'));
     const amenitiesInput = document.getElementById('amenities-input');
-    const messageInput = document.getElementById('form-message');
-
-    function buildMessageSummary() {
-      const formData = new FormData(form);
-      const firstName = (formData.get('firstName') || '').toString().trim();
-      const lastName = (formData.get('lastName') || '').toString().trim();
-      const email = (formData.get('email') || '').toString().trim();
-      const phone = (formData.get('phone') || '').toString().trim();
-      const requestedDate = (formData.get('requestedDate') || '').toString().trim();
-      const startTime = (formData.get('startTime') || '').toString().trim();
-      const endTime = (formData.get('endTime') || '').toString().trim();
-      const duration = (formData.get('duration') || '').toString().trim();
-      const eventType = (formData.get('eventType') || '').toString().trim();
-      const description = (formData.get('description') || '').toString().trim();
-      const amenities = (formData.get('amenities') || '').toString().trim();
-
-      return [
-        `First name: ${firstName}`,
-        `Last name: ${lastName}`,
-        `Email: ${email}`,
-        `Phone: ${phone}`,
-        `Requested date: ${requestedDate}`,
-        `Start time: ${startTime}`,
-        `End time: ${endTime}`,
-        `Duration: ${duration}`,
-        `Event type: ${eventType}`,
-        `Description: ${description}`,
-        `Amenities: ${amenities || 'None'}`
-      ].join('\n');
-    }
 
     function updateAmenitiesValue() {
       if (!amenitiesInput) return;
@@ -178,29 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     amenityCheckboxes.forEach((checkbox) => {
-      checkbox.addEventListener('change', () => {
-        updateAmenitiesValue();
-        if (messageInput) {
-          messageInput.value = buildMessageSummary();
-        }
-      });
+      checkbox.addEventListener('change', updateAmenitiesValue);
     });
     updateAmenitiesValue();
-    if (messageInput) {
-      messageInput.value = buildMessageSummary();
-    }
-
-    form.addEventListener('input', () => {
-      if (messageInput) {
-        messageInput.value = buildMessageSummary();
-      }
-    });
 
     form.addEventListener('submit', (event) => {
       updateAmenitiesValue();
-      if (messageInput) {
-        messageInput.value = buildMessageSummary();
-      }
 
       const firstNameInput = form.querySelector('input[name="firstName"]');
       const lastNameInput = form.querySelector('input[name="lastName"]');
