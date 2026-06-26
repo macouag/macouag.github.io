@@ -164,42 +164,105 @@ document.addEventListener('DOMContentLoaded', () => {
       const description = (formData.get('description') || '').toString().trim();
       const amenities = amenityCheckboxes
         .filter((checkbox) => checkbox.checked)
-        .map((checkbox) => `• ${checkbox.value}`)
-        .join('\n');
+        .map((checkbox) => `✅ ${checkbox.value}`)
+        .join('<br>');
       const eventTypeLabel = eventType === 'general' ? 'General' : 'Small Seminar';
       const timeRange = startTime && endTime ? `${startTime} - ${endTime}` : '';
+      const durationLabel = duration ? `${duration}` : 'N/A';
+      const formattedDate = requestedDate ? new Date(`${requestedDate}T00:00:00`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A';
+      const formattedStartTime = startTime ? new Date(`1970-01-01T${startTime}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : 'N/A';
+      const formattedEndTime = endTime ? new Date(`1970-01-01T${endTime}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : 'N/A';
 
-
-      return [
-        'New Booking Request',
-        '',
-        `Name: ${firstName} ${lastName}`.trim(),
-        '',
-        `Email: ${email}`,
-        '',
-        `Phone: ${phone}`,
-        '',
-        `Date: ${requestedDate}`,
-        '',
-        `Time: ${timeRange}`,
-        '',
-        `Duration: ${duration}`,
-        '',
-        `Event Type: ${eventTypeLabel}`,
-        '',
-        'Amenities:',
-        amenities || '• None',
-        '',
-        `Description: ${description}`
-      ].join('\n');
+      return `
+<div style="max-width:700px;margin:auto;background:#f4f6f9;padding:30px;font-family:Arial,Helvetica,sans-serif;">
+  <div style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.08);">
+    <div style="background:#991b1b;padding:30px;text-align:center;color:white;">
+      <h1 style="margin:0;">🏛 New Booking Request</h1>
+      <p style="margin:8px 0 0;color:#fde68a;">CIRFA Event Reservation</p>
+    </div>
+    <div style="padding:35px;">
+      <h2 style="color:#991b1b;border-bottom:2px solid #eee;padding-bottom:10px;">Contact Information</h2>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td style="padding:12px;background:#fafafa;font-weight:bold;width:180px;">First Name</td>
+          <td style="padding:12px;">${firstName || 'N/A'}</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;background:#fafafa;font-weight:bold;">Last Name</td>
+          <td style="padding:12px;">${lastName || 'N/A'}</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;background:#fafafa;font-weight:bold;">Email</td>
+          <td style="padding:12px;"><a href="mailto:${email}" style="color:#991b1b;">${email || 'N/A'}</a></td>
+        </tr>
+        <tr>
+          <td style="padding:12px;background:#fafafa;font-weight:bold;">Telephone</td>
+          <td style="padding:12px;">${phone || 'N/A'}</td>
+        </tr>
+      </table>
+      <br>
+      <h2 style="color:#991b1b;border-bottom:2px solid #eee;padding-bottom:10px;">Reservation Details</h2>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td style="padding:12px;background:#fafafa;font-weight:bold;width:180px;">Requested Date</td>
+          <td style="padding:12px;">${formattedDate}</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;background:#fafafa;font-weight:bold;">Start Time</td>
+          <td style="padding:12px;">${formattedStartTime}</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;background:#fafafa;font-weight:bold;">End Time</td>
+          <td style="padding:12px;">${formattedEndTime}</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;background:#fafafa;font-weight:bold;">Duration</td>
+          <td style="padding:12px;">${durationLabel}</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;background:#fafafa;font-weight:bold;">Event Type</td>
+          <td style="padding:12px;">${eventTypeLabel} (${eventType === 'general' ? '$50/hour' : '$35/hour'})</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;background:#fafafa;font-weight:bold;">Amenities</td>
+          <td style="padding:12px;">${amenities || '✅ None'}</td>
+        </tr>
+      </table>
+      <br>
+      <h2 style="color:#991b1b;border-bottom:2px solid #eee;padding-bottom:10px;">Description</h2>
+      <div style="background:#fafafa;border-left:5px solid #991b1b;padding:20px;border-radius:8px;line-height:1.7;">${description || 'No description provided.'}</div>
+      <div style="text-align:center;margin-top:35px;">
+        <a href="mailto:${email}" style="display:inline-block;background:#991b1b;color:white;padding:15px 35px;border-radius:8px;text-decoration:none;font-weight:bold;">Reply to Customer</a>
+      </div>
+    </div>
+    <div style="background:#f8f8f8;padding:20px;text-align:center;font-size:13px;color:#777;">
+      <strong>CIRFA Booking System</strong><br>
+      This email was generated automatically from your website booking form.
+    </div>
+  </div>
+</div>`;
     }
 
     function updateConfirmationMessage() {
       if (!replyToInput || !confirmationMessageInput) return;
       const formData = new FormData(form);
       const firstName = (formData.get('firstName') || '').toString().trim();
-      const confirmationMessage = `Hello ${firstName || 'there'},\n\nThank you for your reservation request. We have received your message and will contact you shortly.\n\nBest regards,\nCIRFA`;
-      replyToInput.value = (formData.get('email') || '').toString().trim();
+      const email = (formData.get('email') || '').toString().trim();
+      const requestedDate = (formData.get('requestedDate') || '').toString().trim();
+      const startTime = (formData.get('startTime') || '').toString().trim();
+      const endTime = (formData.get('endTime') || '').toString().trim();
+      const description = (formData.get('description') || '').toString().trim();
+      const eventType = (formData.get('eventType') || '').toString().trim();
+      const eventTypeLabel = eventType === 'general' ? 'General' : 'Small Seminar';
+      const timeRange = startTime && endTime ? `${startTime} - ${endTime}` : '';
+
+      const calendarDate = requestedDate ? requestedDate.replace(/-/g, '') : '';
+      const calendarStart = startTime ? startTime.replace(':', '') : '090000';
+      const calendarEnd = endTime ? endTime.replace(':', '') : '120000';
+      const calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Booking%20Request%20-%20${encodeURIComponent(eventTypeLabel)}&dates=${calendarDate}T${calendarStart}/${calendarDate}T${calendarEnd}&details=${encodeURIComponent(description || 'Booking request')}&location=${encodeURIComponent('CIRFA')}`;
+      const confirmationMessage = `Hello ${firstName || 'there'},\n\nThank you for your reservation request.\n\nDate: ${requestedDate}\nTime: ${timeRange}\nEvent type: ${eventTypeLabel}\n\nAdd to calendar: ${calendarLink}\n\nBest regards,\nCIRFA`;
+
+      replyToInput.value = email;
       confirmationMessageInput.value = confirmationMessage;
     }
 
