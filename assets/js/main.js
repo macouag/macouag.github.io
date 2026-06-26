@@ -143,7 +143,61 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (form) {
-    form.addEventListener('submit', () => {
+    const amenityCheckboxes = Array.from(form.querySelectorAll('input[name="amenity"]'));
+    const amenitiesInput = document.getElementById('amenities-input');
+
+    function updateAmenitiesValue() {
+      if (!amenitiesInput) return;
+      const selectedAmenities = amenityCheckboxes
+        .filter((checkbox) => checkbox.checked)
+        .map((checkbox) => checkbox.value);
+      amenitiesInput.value = selectedAmenities.join(', ');
+    }
+
+    amenityCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener('change', updateAmenitiesValue);
+    });
+    updateAmenitiesValue();
+
+    form.addEventListener('submit', (event) => {
+      updateAmenitiesValue();
+
+      const firstNameInput = form.querySelector('input[name="firstName"]');
+      const lastNameInput = form.querySelector('input[name="lastName"]');
+      const emailInput = form.querySelector('input[name="email"]');
+      const phoneInput = form.querySelector('input[name="phone"]');
+      const emailValue = (emailInput?.value || '').trim();
+      const phoneValue = (phoneInput?.value || '').trim();
+      const firstNameValue = (firstNameInput?.value || '').trim();
+      const lastNameValue = (lastNameInput?.value || '').trim();
+      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue);
+
+      if (!firstNameValue || !lastNameValue || !emailValue || !phoneValue || !isValidEmail) {
+        event.preventDefault();
+        if (statusBox) {
+          statusBox.innerHTML = '<p class="text-sm font-medium text-red-700 lang-fr">Veuillez remplir votre prénom, nom, téléphone et une adresse courriel valide.</p><p class="text-sm font-medium text-red-700 lang-en">Please complete your first name, last name, phone number, and a valid email address.</p>';
+        }
+        return;
+      }
+
+      let ccInput = form.querySelector('input[name="_cc"]');
+      if (!ccInput) {
+        ccInput = document.createElement('input');
+        ccInput.type = 'hidden';
+        ccInput.name = '_cc';
+        form.appendChild(ccInput);
+      }
+      ccInput.value = emailValue;
+
+      let replyToInput = form.querySelector('input[name="_replyto"]');
+      if (!replyToInput) {
+        replyToInput = document.createElement('input');
+        replyToInput.type = 'hidden';
+        replyToInput.name = '_replyto';
+        form.appendChild(replyToInput);
+      }
+      replyToInput.value = emailValue;
+
       if (statusBox) {
         statusBox.innerHTML = '<p class="text-sm font-medium text-green-700 lang-fr">Votre demande est en cours d’envoi…</p><p class="text-sm font-medium text-green-700 lang-en">Your request is being sent…</p>';
       }
