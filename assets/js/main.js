@@ -105,12 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
     durationInput.value = formatted;
   }
 
+  const syncTimeSelection = () => {
+    updateDuration();
+    updateTimeConstraints();
+  };
+
   [startTimeInput, endTimeInput].forEach((input) => {
     if (input) {
-      input.addEventListener('input', () => {
-        updateDuration();
-        updateTimeConstraints();
-      });
+      input.addEventListener('input', syncTimeSelection);
+      input.addEventListener('change', syncTimeSelection);
     }
   });
 
