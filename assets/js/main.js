@@ -160,20 +160,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const duration = (formData.get('duration') || '').toString().trim();
       const eventType = (formData.get('eventType') || '').toString().trim();
       const description = (formData.get('description') || '').toString().trim();
-      const amenities = (formData.get('amenities') || '').toString().trim();
+      const amenities = amenityCheckboxes
+        .map((checkbox) => `[${checkbox.checked ? 'x' : ' '}] - ${checkbox.value}`)
+        .join('\n');
+      const eventTypeLabel = eventType === 'general' ? 'General' : 'Small seminar';
 
       return [
-        `First name: ${firstName}`,
-        `Last name: ${lastName}`,
-        `Email: ${email}`,
-        `Phone: ${phone}`,
-        `Requested date: ${requestedDate}`,
-        `Start time: ${startTime}`,
-        `End time: ${endTime}`,
-        `Duration: ${duration}`,
-        `Event type: ${eventType}`,
-        `Description: ${description}`,
-        `Amenities: ${amenities || 'None'}`
+        `First Name : ${firstName}`,
+        `Last Name : ${lastName}`,
+        `Email : ${email}`,
+        `Phone : ${phone}`,
+        `Event Date : ${requestedDate}`,
+        `Event type : ${eventTypeLabel}`,
+        `Start Hour : ${startTime}`,
+        `End Hour : ${endTime}`,
+        `Duration : ${duration}`,
+        `Description : ${description}`,
+        'Amenities :',
+        amenities || '[ ] - None'
       ].join('\n');
     }
 
