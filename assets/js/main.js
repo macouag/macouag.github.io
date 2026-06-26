@@ -161,23 +161,41 @@ document.addEventListener('DOMContentLoaded', () => {
       const eventType = (formData.get('eventType') || '').toString().trim();
       const description = (formData.get('description') || '').toString().trim();
       const amenities = amenityCheckboxes
-        .map((checkbox) => `[${checkbox.checked ? 'x' : ' '}] - ${checkbox.value}`)
+        .filter((checkbox) => checkbox.checked)
+        .map((checkbox) => `• ${checkbox.value}`)
         .join('\n');
-      const eventTypeLabel = eventType === 'general' ? 'General' : 'Small seminar';
+      const eventTypeLabel = eventType === 'general' ? 'General' : 'Small Seminar';
+      const timeRange = startTime && endTime ? `${startTime} - ${endTime}` : '';
 
       return [
-        `First Name : ${firstName}`,
-        `Last Name : ${lastName}`,
-        `Email : ${email}`,
-        `Phone : ${phone}`,
-        `Event Date : ${requestedDate}`,
-        `Event type : ${eventTypeLabel}`,
-        `Start Hour : ${startTime}`,
-        `End Hour : ${endTime}`,
-        `Duration : ${duration}`,
-        `Description : ${description}`,
-        'Amenities :',
-        amenities || '[ ] - None'
+        'New Booking Request',
+        '',
+        'Name:',
+        `${firstName} ${lastName}`.trim(),
+        '',
+        'Email:',
+        email,
+        '',
+        'Phone:',
+        phone,
+        '',
+        'Date:',
+        requestedDate,
+        '',
+        'Time:',
+        timeRange,
+        '',
+        'Duration:',
+        duration,
+        '',
+        'Event Type:',
+        eventTypeLabel,
+        '',
+        'Amenities:',
+        amenities || '• None',
+        '',
+        'Description:',
+        description
       ].join('\n');
     }
 
