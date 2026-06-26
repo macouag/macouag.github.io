@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; img-src 'self' https: data:; script-src 'self' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://formsubmit.co 'unsafe-inline'; style-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; frame-src https://calendar.google.com https://www.google.com; connect-src https://formsubmit.co https://api.emailjs.com;">
+    <title>Réservation | Centre Internationaliste Ryerson Fondation Aubin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased is-fr">
+
+    <!-- Navigation -->
+    <nav class="py-3 px-6 sticky top-0 z-50 shadow-sm" style="background-color:#610330; border-bottom: 1px solid #4a0425;">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="https://centreinternationalisterfa.org/" target="_blank" class="flex items-center gap-3">
+                    <img src="https://i0.wp.com/centreinternationalisterfa.org/wp-content/uploads/2013/04/cropped-bannic3a8re-cirfa-horizontale-1-1.jpg?ssl=1" alt="CIRFA logo" class="h-14 md:h-16 w-auto object-contain">
+                </a>
+            </div>
+            
+            <!-- Language Toggle -->
+            <div class="flex items-center rounded-lg p-1 border mt-4 md:mt-0" style="background-color:#7a093f; border-color:#4a0425;">
+                <button onclick="setLanguage('fr')" id="btn-fr" class="px-3 py-1 text-sm font-semibold rounded-md bg-white shadow-sm text-[#610330] transition-all">FR</button>
+                <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 text-sm font-semibold rounded-md text-white hover:text-red-100 transition-all">EN</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex flex-col lg:flex-row lg:gap-10 lg:items-start">
+        
+        <!-- Left Column: Venue Information & Visuals -->
+        <div class="w-full lg:w-1/2 mb-10 lg:mb-0 space-y-8">
+            
+            <!-- Headers -->
+            <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-[#610330] mb-3 tracking-tight lang-fr">Réservez notre espace communautaire</h1>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-[#610330] mb-3 tracking-tight lang-en">Reserve Our Community Space</h1>
+                
+                <p class="text-lg text-gray-700 leading-relaxed lang-fr">
+                    Un espace industriel de 2 800 pi² à Montréal dédié à la recherche et à la solidarité. Idéal pour séminaires, ateliers et rassemblements de groupes communautaires.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed lang-en">
+                    A 2,800 sq. ft. industrial space in Montreal dedicated to research and solidarity. Ideal for seminars, workshops, and community group gatherings.
+                </p>
+            </div>
+
+            <!-- Slideshow -->
+            <div class="relative w-full h-64 md:h-80 bg-gray-200 rounded-xl overflow-hidden shadow-inner border border-gray-200">
+                <img src="./images/main_local.jpg" class="slide absolute inset-0 w-full h-full object-cover opacity-100" alt="Main Space">
+                <img src="./images/computer_rom.jpg" class="slide absolute inset-0 w-full h-full object-cover opacity-0" alt="Computer Room">
+                <img src="./images/kitchen.jpg" class="slide absolute inset-0 w-full h-full object-cover opacity-0" alt="Kitchen">
+                
+                <button onclick="moveSlide(-1)" type="button" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-900 rounded-full p-2 shadow-md">❮</button>
+                <button onclick="moveSlide(1)" type="button" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-900 rounded-full p-2 shadow-md">❯</button>
+            </div>
+
+            <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <div class="grid gap-6 md:grid-cols-2">
+                    <div class="text-sm text-gray-700 space-y-2">
+                        <p class="font-semibold text-gray-900 lang-fr">Heures d'ouverture</p>
+                        <p class="font-semibold text-gray-900 lang-en">Opening hours</p>
+                        <p class="lang-fr">Lundi - Vendredi<br>11:00 - 16:00<br> <br>Samedi<br>14:00 à 18:00</p>
+                        <p class="lang-en">Monday - Friday<br>11:00 AM - 4:00 PM<br> <br>Saturday<br>2:00 PM-6:00 PM</p>
+                    </div>
+
+                    <div class="space-y-3 text-sm text-gray-700">
+                        <p class="font-semibold text-gray-900 lang-fr">Coordonnées</p>
+                        <p class="font-semibold text-gray-900 lang-en">Contact details</p>
+
+                        <a href="https://maps.google.com/maps?z=16&q=1710%2Bbeaudry%2C%2Bsuite%2B2.10%2Bmontr%C3%A9al%2C%2Bqu%C3%A9bec%2Bh2l%2B3e7" target="_blank" rel="noopener noreferrer" class="flex items-start gap-2 text-red-700 hover:underline">
+                            <span class="mt-0.5 text-base">📍</span>
+                            <span>1710 Beaudry, suite 2.10<br>Montréal, Québec H2L 3E7</span>
+                        </a>
+
+                        <a href="tel:(514)563-1609" class="flex items-center gap-2 text-red-700 hover:underline">
+                            <span class="text-base">📞</span>
+                            <span>(514) 563-1609</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-2 shadow-lg shadow-gray-200/80">
+                    <div class="rounded-xl border border-gray-100 overflow-hidden">
+                    <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FToronto&showPrint=0&showTitle=0&showCalendars=0&showNav=0&showDate=0&showTabs=0&src=YzIxNjI1MTBhNmYxODY4YWQxMTQ0NmQ4MjY3YTM1MDcxZjdjZWVhNWRkNGE3YjdhMzlkNjFkODU0YWQyYTNkMUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%234285f4"
+                            style="border:0"
+                            width="100%"
+                            height="600"
+                            frameborder="0"
+                            scrolling="no"
+                            title="Public calendar"></iframe>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Booking Form -->
+        <div class="w-full lg:w-1/2">
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 md:p-8 sticky top-24 space-y-6">
+                <div class="bg-stone-100 border border-stone-200 p-6 rounded-xl shadow-sm text-stone-700">
+                    <h3 class="font-semibold mb-4 text-stone-800 lang-fr">Tarifs de location</h3>
+                    <h3 class="font-semibold mb-4 text-stone-800 lang-en">Rental Rates</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between border-b border-stone-200 pb-2">
+                            <span class="lang-fr">Petits séminaires</span><span class="lang-en">Small Seminars</span>
+                            <span class="font-medium text-stone-800">35$ / h</span>
+                        </div>
+                        <div class="flex justify-between border-b border-stone-200 pb-2">
+                            <span class="lang-fr">Événements généraux</span><span class="lang-en">General Events</span>
+                            <span class="font-medium text-stone-800">50$ / h</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-bold text-gray-900 lang-fr">Demande de réservation</h2>
+                <h2 class="text-2xl font-bold text-gray-900 lang-en">Booking Request</h2>
+
+                <form id="booking-form" class="space-y-5">
+                    <input type="hidden" name="template" value="booking_request">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Prénom</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1 lang-en">First Name</label>
+                            <input type="text" name="firstName" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-red-600 focus:ring-red-600 bg-gray-50 border p-2.5 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Nom</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1 lang-en">Last Name</label>
+                            <input type="text" name="lastName" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-red-600 focus:ring-red-600 bg-gray-50 border p-2.5 text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Courriel</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1 lang-en">Email Address</label>
+                        <input type="email" name="email" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-red-600 focus:ring-red-600 bg-gray-50 border p-2.5 text-sm">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Date souhaitée</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1 lang-en">Requested Date</label>
+                            <input type="date" name="requestedDate" id="requested-date" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-red-600 focus:ring-red-600 bg-gray-50 border p-2.5 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Type d'événement</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1 lang-en">Event Type</label>
+                            <select name="eventType" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-red-600 focus:ring-red-600 bg-gray-50 border p-2.5 text-sm">
+                                <option value="small" class="lang-fr">Petit séminaire (35$/h)</option>
+                                <option value="small" class="lang-en">Small seminar ($35/h)</option>
+                                <option value="general" class="lang-fr">Général (50$/h)</option>
+                                <option value="general" class="lang-en">General ($50/h)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Heure de début</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1 lang-en">Start Time</label>
+                            <input id="start-time" type="time" name="startTime" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-red-600 focus:ring-red-600 bg-gray-50 border p-2.5 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Heure de fin</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1 lang-en">End Time</label>
+                            <input id="end-time" type="time" name="endTime" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-red-600 focus:ring-red-600 bg-gray-50 border p-2.5 text-sm">
+                        </div>
+                    </div>
+
+                    <div id="duration-box" class="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+                        <p class="font-medium">
+                            <span class="lang-fr">Durée sélectionnée :</span>
+                            <span class="lang-en">Selected duration:</span>
+                            <span id="duration-value" class="ml-1">--</span>
+                        </p>
+                    </div>
+                    <input type="hidden" name="duration" id="duration-input">
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1 lang-fr">Description</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1 lang-en">Description</label>
+                        <textarea name="description" rows="4" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-red-600 focus:ring-red-600 bg-gray-50 border p-2.5 text-sm" placeholder="Décrivez votre événement ou vos besoins..."></textarea>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <label class="block text-sm font-bold text-gray-800 mb-3 lang-fr">Équipements requis (Inclus)</label>
+                        <label class="block text-sm font-bold text-gray-800 mb-3 lang-en">Required Amenities (Included)</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="amenity" value="Projector & Screen" class="h-4 w-4 text-red-600 border-gray-300 rounded focus:ring-red-600">
+                                <span class="ml-2 text-sm text-gray-600 lang-fr">Projecteur et écran</span>
+                                <span class="ml-2 text-sm text-gray-600 lang-en">Projector & Screen</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="amenity" value="PA System (Microphone)" class="h-4 w-4 text-red-600 border-gray-300 rounded focus:ring-red-600">
+                                <span class="ml-2 text-sm text-gray-600 lang-fr">Système de sonorisation (Micro)</span>
+                                <span class="ml-2 text-sm text-gray-600 lang-en">PA System (Microphone)</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="amenity" value="Modular Workshop Tables" class="h-4 w-4 text-red-600 border-gray-300 rounded focus:ring-red-600">
+                                <span class="ml-2 text-sm text-gray-600 lang-fr">Tables modulaires pour atelier</span>
+                                <span class="ml-2 text-sm text-gray-600 lang-en">Modular Workshop Tables</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <hr class="border-gray-100 my-4">
+
+                    <div class="rounded-lg border border-green-200 bg-green-50 p-4">
+                        <p class="text-sm font-medium text-green-800 lang-fr">Aucune réservation en ligne n’est requise. Votre demande sera envoyée directement via le formulaire.</p>
+                        <p class="text-sm font-medium text-green-800 lang-en">No online payment is required. Your request will be sent directly through the form.</p>
+                    </div>
+
+                    <div id="form-status" class="text-sm"></div>
+
+                    <button type="submit" class="w-full bg-red-700 text-white font-semibold py-3 px-4 rounded-lg hover:bg-red-800 focus:ring-2 focus:ring-red-600 focus:ring-offset-2 transition-colors">
+                        <span class="lang-fr">Envoyer la demande</span>
+                        <span class="lang-en">Send request</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>
