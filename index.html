@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; img-src 'self' https: data:; script-src 'self' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://formsubmit.co 'unsafe-inline'; style-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; frame-src https://calendar.google.com https://www.google.com; connect-src https://formsubmit.co https://api.emailjs.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; img-src 'self' https: data:; script-src 'self' https://cdn.tailwindcss.com https://formsubmit.co 'unsafe-inline'; style-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; frame-src https://calendar.google.com https://www.google.com; connect-src https://formsubmit.co;">
     <title>Réservation | Centre Internationaliste Ryerson Fondation Aubin</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased is-fr">
@@ -120,7 +119,11 @@
                 <h2 class="text-2xl font-bold text-gray-900 lang-fr">Demande de réservation</h2>
                 <h2 class="text-2xl font-bold text-gray-900 lang-en">Booking Request</h2>
 
-                <form id="booking-form" class="space-y-5">
+                <form id="booking-form" class="space-y-5" action="https://formsubmit.co/mikeraogo@gmail.com" method="POST">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_subject" value="New booking request from CIRFA">
+                    <input type="hidden" name="_next" value="https://macouag.github.io/?submitted=1">
                     <input type="hidden" name="template" value="booking_request">
                     <div class="grid grid-cols-2 gap-4">
                         <div>

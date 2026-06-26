@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  emailjs.init('PNA9CgsRPnocR-GMw');
   const slides = document.querySelectorAll('.slide');
   let currentSlide = 0;
 
@@ -136,76 +135,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('booking-form');
   const statusBox = document.getElementById('form-status');
 
+  if (statusBox) {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('submitted') === '1') {
+      statusBox.innerHTML = '<p class="text-sm font-medium text-green-700 lang-fr">Votre demande a bien été envoyée. Nous vous répondrons bientôt.</p><p class="text-sm font-medium text-green-700 lang-en">Your request has been sent successfully. We will get back to you soon.</p>';
+    }
+  }
+
   if (form) {
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-
-      const submitButton = form.querySelector('button[type="submit"]');
-      const originalText = submitButton ? submitButton.innerHTML : '';
-      if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.innerHTML = '<span class="lang-fr">Envoi en cours...</span><span class="lang-en">Sending...</span>';
-      }
-
+    form.addEventListener('submit', () => {
       if (statusBox) {
         statusBox.innerHTML = '<p class="text-sm font-medium text-green-700 lang-fr">Votre demande est en cours d’envoi…</p><p class="text-sm font-medium text-green-700 lang-en">Your request is being sent…</p>';
-      }
-
-      const formData = new FormData(form);
-      const userEmail = (formData.get('email') || '').toString().trim();
-      const firstName = (formData.get('firstName') || '').toString().trim();
-      const lastName = (formData.get('lastName') || '').toString().trim();
-      const requestedDate = (formData.get('requestedDate') || '').toString().trim();
-      const startTime = (formData.get('startTime') || '').toString().trim();
-      const endTime = (formData.get('endTime') || '').toString().trim();
-      const eventType = (formData.get('eventType') || '').toString().trim();
-      const description = (formData.get('description') || '').toString().trim();
-      const duration = (formData.get('duration') || '').toString().trim();
-      const amenities = formData.getAll('amenity').join(', ');
-
-      const templateParams = {
-        to_email: 'mikeraogo@gmail.com',
-        from_name: `${firstName} ${lastName}`.trim(),
-        from_email: userEmail,
-        requested_date: requestedDate,
-        start_time: startTime,
-        end_time: endTime,
-        duration,
-        event_type: eventType,
-        description,
-        amenities,
-        message: `New booking request from ${firstName} ${lastName}`
-      };
-
-      const confirmationParams = {
-        to_email: userEmail,
-        from_name: 'CIRFA',
-        message: `Hello ${firstName},\n\nThank you for your reservation request. We have received your message and will get back to you shortly.\n\nDetails:\n- Date: ${requestedDate}\n- Time: ${startTime} to ${endTime}\n- Duration: ${duration || 'N/A'}\n- Event type: ${eventType || 'N/A'}\n\nBest regards,\nCIRFA`
-      };
-
-      try {
-        await emailjs.send('service_yo5avmf', 'booking_request', templateParams);
-        if (userEmail) {
-          await emailjs.send('service_yo5avmf', 'booking_confirmation', confirmationParams);
-        }
-
-        if (statusBox) {
-          statusBox.innerHTML = '<p class="text-sm font-medium text-green-700 lang-fr">Votre demande a bien été envoyée. Nous vous répondrons bientôt.</p><p class="text-sm font-medium text-green-700 lang-en">Your request has been sent successfully. We will get back to you soon.</p>';
-        }
-        form.reset();
-        if (durationValue && durationInput) {
-          durationValue.textContent = '--';
-          durationInput.value = '';
-        }
-      } catch (error) {
-        if (statusBox) {
-          statusBox.innerHTML = '<p class="text-sm font-medium text-red-700 lang-fr">Une erreur est survenue. Veuillez réessayer plus tard.</p><p class="text-sm font-medium text-red-700 lang-en">Something went wrong. Please try again later.</p>';
-        }
-      } finally {
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.innerHTML = originalText;
-        }
       }
     });
   }
