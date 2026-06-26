@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; img-src 'self' https: data:; script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; style-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; frame-src https://calendar.google.com https://www.google.com; connect-src https://formbold.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; img-src 'self' https: data:; script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; style-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; frame-src https://calendar.google.com https://www.google.com; connect-src https://formsubmit.co;">
     <title>Réservation | Centre Internationaliste Ryerson Fondation Aubin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./assets/css/styles.css">
@@ -119,8 +119,10 @@
                 <h2 class="text-2xl font-bold text-gray-900 lang-fr">Demande de réservation</h2>
                 <h2 class="text-2xl font-bold text-gray-900 lang-en">Booking Request</h2>
 
-                <form id="booking-form" class="space-y-5" action="https://formbold.com/s/3OObe" method="POST">
-                    <input type="hidden" name="subject" value="New booking request from CIRFA">
+                <form id="booking-form" class="space-y-5" action="https://formsubmit.co/your@email.com" method="POST">
+                    <input type="hidden" name="_subject" value="New booking request from CIRFA">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://macouag.github.io/">
                     <input type="hidden" name="message" id="form-message" value="">
                     <input type="hidden" name="reply_to" id="reply-to" value="">
                     <input type="hidden" name="confirmation_message" id="confirmation-message" value="">
