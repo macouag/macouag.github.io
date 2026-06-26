@@ -139,6 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const amenityCheckboxes = Array.from(form.querySelectorAll('input[name="amenity"]'));
     const amenitiesInput = document.getElementById('amenities-input');
     const messageInput = document.getElementById('form-message');
+    const replyToInput = document.getElementById('reply-to');
+    const confirmationMessageInput = document.getElementById('confirmation-message');
 
     function updateAmenitiesValue() {
       if (!amenitiesInput) return;
@@ -192,22 +194,35 @@ document.addEventListener('DOMContentLoaded', () => {
       ].join('\n');
     }
 
+    function updateConfirmationMessage() {
+      if (!replyToInput || !confirmationMessageInput) return;
+      const formData = new FormData(form);
+      const firstName = (formData.get('firstName') || '').toString().trim();
+      const confirmationMessage = `Hello ${firstName || 'there'},\n\nThank you for your reservation request. We have received your message and will contact you shortly.\n\nBest regards,\nCIRFA`;
+      replyToInput.value = (formData.get('email') || '').toString().trim();
+      confirmationMessageInput.value = confirmationMessage;
+    }
+
     amenityCheckboxes.forEach((checkbox) => {
       checkbox.addEventListener('change', () => {
         updateAmenitiesValue();
         if (messageInput) messageInput.value = buildMessageSummary();
+        updateConfirmationMessage();
       });
     });
     updateAmenitiesValue();
     if (messageInput) messageInput.value = buildMessageSummary();
+    updateConfirmationMessage();
 
     form.addEventListener('input', () => {
       if (messageInput) messageInput.value = buildMessageSummary();
+      updateConfirmationMessage();
     });
 
     form.addEventListener('submit', (event) => {
       updateAmenitiesValue();
       if (messageInput) messageInput.value = buildMessageSummary();
+      updateConfirmationMessage();
 
       const firstNameInput = form.querySelector('input[name="firstName"]');
       const lastNameInput = form.querySelector('input[name="lastName"]');
@@ -247,11 +262,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (statusBox) {
         statusBox.innerHTML = '<p class="text-sm font-medium text-green-700 lang-fr">Votre demande est en cours d’envoi…</p><p class="text-sm font-medium text-green-700 lang-en">Your request is being sent…</p>';
-        window.setTimeout(() => {
-          if (statusBox.innerHTML.includes('Votre demande est en cours d’envoi') || statusBox.innerHTML.includes('Your request is being sent')) {
-            statusBox.innerHTML = '';
-          }
-        }, 60000);
       }
     });
   }
